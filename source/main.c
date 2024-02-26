@@ -8,7 +8,10 @@ OBJ_AFFINE *obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
 void load_sprite(void)
 {
-	// Load tiles and palette of sprite into video and palete RAM
+	// Load tiles and palette of sprite into video and palete RAM. Note that
+	// regular memcpy() won't work. To write to VRAM, it is required to write in
+	// units of 16 or 32 bytes. memcpy() doesn't guarantee the size of the
+	// writes, but mempcy32() always writes in chunks of 32 bytes.
 	memcpy32(&tile_mem[4][0], metrTiles, metrTilesLen / 4);
 	memcpy32(pal_obj_mem, metrPal, metrPalLen / 4);
 
